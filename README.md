@@ -6,8 +6,8 @@ This repository contains experimental implementations of React Server Components
 
 The repository contains three main demo projects:
 
-- `react-rsc-demo/`: Implementation of React Server Components with webpack and express
-- `rsc-demo/`: Alternative implementation of React Server Components
+- `react-rsc-demo/`: Version of demo implementation of React Server Components with webpack and express from React team
+- `rsc-demo/`: Simplified implementation of React Server Components
 - `ssr-demo/`: Server-Side Rendering implementation
 
 ## Requirements
