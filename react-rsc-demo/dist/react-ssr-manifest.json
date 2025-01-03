@@ -1,0 +1,14 @@
+{
+  "moduleLoading": {
+    "prefix": "auto",
+    "crossOrigin": null
+  },
+  "moduleMap": {
+    "./src/Button.jsx": {
+      "*": {
+        "specifier": "file:///Users/danielostapenko/Projects/tmp/server-components-node/react-demo/src/Button.jsx",
+        "name": "*"
+      }
+    }
+  }
+}

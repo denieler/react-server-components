@@ -1,0 +1,12 @@
+{
+  "file:///Users/danielostapenko/Projects/tmp/server-components-node/rsc-demo/src/Button.jsx": {
+    "id": "./src/Button.jsx",
+    "chunks": [
+      "vendors-node_modules_react_jsx-runtime_js",
+      "vendors-node_modules_react_jsx-runtime_js.js",
+      "client0",
+      "client0.js"
+    ],
+    "name": "*"
+  }
+}
