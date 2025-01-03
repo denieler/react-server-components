@@ -10,15 +10,18 @@ babelRegister({
 
 const express = require('express');
 const {readFileSync} = require('fs');
-const {renderToPipeableStream} = require('react-server-dom-webpack/server.node');
+const {renderToPipeableStream, decodeReply} = require('react-server-dom-webpack/server.node');
 const path = require('path');
 const React = require('react');
+const { PassThrough, Readable } = require('stream');
+const { fileURLToPath } = require('url');
 const App = require('./src/App').default;
 
 const PORT = process.env.PORT || 4000;
 const app = express();
 
 app.use(express.json());
+app.use(express.text());
 
 app
   .listen(PORT, () => {
@@ -63,5 +66,41 @@ app.get('/rsc', (req, res) => {
     res.status(500).end('Internal Server Error');
   });
 })
+
+app.post('/action', callServerAction);
+
+async function callServerAction(req, res, context) {
+  try {
+    const serverReference = req.header("rsc-action");
+    const [filepath, name] = serverReference.split("#");
+
+    const resolvedPath = filepath.startsWith('file://')
+      ? fileURLToPath(filepath)
+      : path.resolve(filepath);
+    const module = require(resolvedPath);
+    const action = module[name];
+    
+    const formData = req.body;
+    const args = await decodeReply(formData);
+
+    const result = await action(...args);
+
+    const manifest = readFileSync(
+      path.resolve(__dirname, './dist/react-client-manifest.json'),
+      'utf8'
+    );
+
+    const moduleMap = JSON.parse(manifest);
+    const stream = renderToPipeableStream(result, { moduleMap });
+    
+    stream.pipe(res).on('error', (err) => {
+      console.error('Stream error:', err);
+      res.status(500).end('Internal Server Error');
+    });
+  } catch (err) {
+    console.error("Error in callServerAction:", err);
+    res.status(500).send("Internal Server Error");
+  }
+}
 
 app.use(express.static('dist'));

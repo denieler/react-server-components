@@ -1,4 +1,5 @@
 import Button from './Button.jsx'
+import { createNoteAction } from './func.js'
 
 const Component = async () => {
     const data = await fetch('https://jsonplaceholder.typicode.com/posts/1')
@@ -9,7 +10,7 @@ const Component = async () => {
     return (
         <>
             <div>Component</div>
-            <Button>Button</Button>
+            <Button handleClick={createNoteAction}>Button</Button>
         </>
     )
 }

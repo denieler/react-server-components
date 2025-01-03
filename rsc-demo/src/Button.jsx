@@ -1,12 +1,8 @@
 'use client'
 
-const Button = () => {
-    const handleClick = () => {
-        console.log('click')
-    }
-
+const Button = ({ handleClick }) => {
     return (
-        <button onClick={handleClick}>Button</button>
+        <button onClick={e => handleClick({ postNumber: 4 })}>Button</button>
     )
 }
 
